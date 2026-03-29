@@ -37,18 +37,19 @@ class UserFactory extends Factory
         ];
     }
 
-     /**
-      * Override the default system creator ID for the user.
-      *
-      * @param int $creatorId
+    /**
+     * Override the default system creator ID for the user.
+     *
+     * @param int $creatorId
      * @return static The configured factory instance.
-      */
+     */
     public function creator(int $creatorId): static
     {
         return $this->state([
             'created_by' => $creatorId,
         ]);
     }
+
     /**
      * Indicate that the model's email address should be unverified.
      *
