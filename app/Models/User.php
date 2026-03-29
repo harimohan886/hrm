@@ -12,6 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    public const TYPE_COMPANY = 'company';
+    public const DEFAULT_CREATOR_ID = 1;
+
     use HasFactory;
     use Notifiable;
     use HasRoles;
