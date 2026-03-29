@@ -1,4 +1,9 @@
-/.idea
+/vendor
+/node_modules
+/storage
+/public/storage
+*.zip
+.env/.idea
 /.vscode/.phpunit.cache
 /node_modules
 /public/build
