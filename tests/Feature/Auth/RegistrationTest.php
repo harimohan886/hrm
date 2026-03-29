@@ -10,12 +10,14 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    private const COMPANY_ROLE = 'company';
+
     protected function setUp(): void
     {
         parent::setUp();
 
         Role::firstOrCreate([
-            'name' => 'company',
+            'name' => self::COMPANY_ROLE,
             'guard_name' => 'web',
         ]);
     }

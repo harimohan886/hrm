@@ -33,8 +33,15 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'type' => 'company',
             'lang' => 'en',
-            'created_by' => '1',
+            'created_by' => 1,
         ];
+    }
+
+    public function creator(int $creatorId): static
+    {
+        return $this->state([
+            'created_by' => $creatorId,
+        ]);
     }
     /**
      * Indicate that the model's email address should be unverified.
