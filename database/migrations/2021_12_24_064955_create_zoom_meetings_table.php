@@ -20,10 +20,10 @@ class CreateZoomMeetingsTable extends Migration
             $table->string('meeting_id')->default(0);
             $table->string('user_id')->default(0);
             $table->string('password')->nullable();
-            $defaultStartDate = DB::getDriverName() === 'sqlite'
+            $startDateDefaultExpression = DB::getDriverName() === 'sqlite'
                 ? DB::raw('CURRENT_TIMESTAMP')
                 : DB::raw('CURRENT_TIMESTAMP(0)');
-            $table->timestamp('start_date')->default($defaultStartDate);
+            $table->timestamp('start_date')->default($startDateDefaultExpression);
             $table->integer('duration')->default(0);
             $table->text('start_url')->nullable();
             $table->string('join_url')->nullable();

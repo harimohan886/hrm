@@ -37,6 +37,9 @@ class UserFactory extends Factory
         ];
     }
 
+    /**
+     * Override the default creator ID for the user.
+     */
     public function creator(int $creatorId): static
     {
         return $this->state([
