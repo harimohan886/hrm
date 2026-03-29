@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -10,6 +11,13 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     */
+    protected $model = User::class;
+
     /**
      * Define the model's default state.
      *
@@ -25,8 +33,22 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'type' => 'company',
             'lang' => 'en',
-            'created_by' => 1,
+            'created_by' => 0,
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            if ($user->type === 'company') {
+                $user->forceFill(['created_by' => (string) $user->id])->save();
+            }
+        });
     }
 
     /**

@@ -10,6 +10,16 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Role::firstOrCreate([
+            'name' => 'company',
+            'guard_name' => 'web',
+        ]);
+    }
+
     public function test_registration_screen_can_be_rendered()
     {
         $response = $this->get('/register');
@@ -19,11 +29,6 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register()
     {
-        Role::create([
-            'name' => 'company',
-            'guard_name' => 'web',
-        ]);
-
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
