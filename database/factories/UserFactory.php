@@ -40,8 +40,6 @@ class UserFactory extends Factory
     /**
      * Override the default system creator ID for the user.
      *
-     * Returns the configured factory instance.
-     *
      * @param int $creatorId
      * @return static
      */
