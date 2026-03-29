@@ -22,7 +22,7 @@ class RegistrationTest extends TestCase
         ]);
     }
 
-    public function test_registration_screen_can_be_rendered()
+    public function test_registration_redirects_to_login()
     {
         $response = $this->get('/register');
 
