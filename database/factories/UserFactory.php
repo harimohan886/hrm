@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'type' => User::TYPE_COMPANY,
             'lang' => 'en',
-            'created_by' => User::DEFAULT_CREATOR_ID,
+            'created_by' => User::SYSTEM_CREATOR_ID,
         ];
     }
 
