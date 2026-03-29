@@ -38,7 +38,10 @@ class UserFactory extends Factory
     }
 
     /**
-     * Override the default creator ID for the user.
+     * Override the default system creator ID for the user.
+     *
+     * @param int $creatorId
+     * @return static
      */
     public function creator(int $creatorId): static
     {
