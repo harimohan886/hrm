@@ -33,24 +33,9 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'type' => 'company',
             'lang' => 'en',
-            'created_by' => 0,
+            'created_by' => '1',
         ];
     }
-
-    /**
-     * Configure the model factory.
-     *
-     * @return $this
-     */
-    public function configure()
-    {
-        return $this->afterCreating(function (User $user) {
-            if ($user->type === 'company') {
-                $user->forceFill(['created_by' => (string) $user->id])->save();
-            }
-        });
-    }
-
     /**
      * Indicate that the model's email address should be unverified.
      *
