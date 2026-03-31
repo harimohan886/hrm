@@ -1,0 +1,72 @@
+name: CI / CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # ──────────────────────────────────────────────
+  # 1. Run the test suite
+  # ──────────────────────────────────────────────
+  test:
+    name: PHPUnit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_sqlite, sqlite3, bcmath, curl, openssl, tokenizer, xml, ctype, json, fileinfo
+          coverage: none
+
+      - name: Copy .env
+        run: cp .env.example .env 2>/dev/null || cp .env .env.bak
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --colors=always
+
+  # ──────────────────────────────────────────────
+  # 2. Deploy (only on push to main / master)
+  # ──────────────────────────────────────────────
+  deploy:
+    name: Deploy to Production
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, curl, openssl
+
+      - name: Install Composer dependencies (including Deployer)
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -H 13.232.130.57 >> ~/.ssh/known_hosts
+
+      - name: Run Deployer
+        run: vendor/bin/dep deploy production --no-interaction -vvv
