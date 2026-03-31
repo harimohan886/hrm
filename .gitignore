@@ -25,3 +25,9 @@ yarn-error.log
 /.vscode
 /storage/uploads/
 *.zip
+
+# Next.js build artifacts
+frontend/.next/
+frontend/node_modules/
+backend/node_modules/
+backend/uploads/
