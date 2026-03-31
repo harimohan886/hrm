@@ -13,7 +13,7 @@ add('shared_files', []);
 
 // Host configuration
 host('production')
-    ->set('hostname', '13.232.130.57')
+    ->set('hostname', '3.93.19.170')
     ->set('remote_user', 'ubuntu')
     ->set('deploy_path', '/var/www/html/hrm-system4')
     ->set('identity_file', '/home/ubuntu/.ssh/id_ed25519');  // Ensure this path is correct
