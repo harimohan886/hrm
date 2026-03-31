@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateZoomMeetingsTable extends Migration
@@ -19,7 +20,10 @@ class CreateZoomMeetingsTable extends Migration
             $table->string('meeting_id')->default(0);
             $table->string('user_id')->default(0);
             $table->string('password')->nullable();
-            $table->timestamp('start_date')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
+            $startDateDefaultExpression = DB::getDriverName() === 'sqlite'
+                ? DB::raw('CURRENT_TIMESTAMP')
+                : DB::raw('CURRENT_TIMESTAMP(0)');
+            $table->timestamp('start_date')->default($startDateDefaultExpression);
             $table->integer('duration')->default(0);
             $table->text('start_url')->nullable();
             $table->string('join_url')->nullable();
